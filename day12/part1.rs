@@ -5,7 +5,7 @@ use std::convert::TryInto;
 fn main() {
 	let file = File::open("input.txt").unwrap();
 	let reader = BufReader::new(file);
-	let mut result = 0;
+	let result;
 	let mut lines: Vec<String> = Vec::new();
 	for line in reader.lines() {
 		lines.push(line.unwrap());
@@ -19,14 +19,12 @@ fn main() {
 		let action = line.remove(0);
 		let value: i32 = line.parse().unwrap();
 		do_actions(action, &value, &directions, &mut y_value, &mut x_value, &mut facing);
-		println!("x = {}; y = {}", x_value, y_value);
 	}
 	result = x_value.abs() + y_value.abs();
 	println!("{result}");
 }
 
 fn do_actions(action: char, value: &i32, directions: &[char;4], y_value: &mut i32, x_value: &mut i32, facing: &mut char) {
-	println!("prova {}{}", action, value);
 	match action {
 		'E' => *x_value += value,
 		'N' => *y_value += value,
@@ -43,7 +41,6 @@ fn do_actions(action: char, value: &i32, directions: &[char;4], y_value: &mut i3
 				index -= turns;
 			}
 			*facing = directions[index as usize];
-			println!("ora rivolto a {facing}");
 		},
 		'L' => {
 			let turns = value/90;
@@ -57,7 +54,6 @@ fn do_actions(action: char, value: &i32, directions: &[char;4], y_value: &mut i3
 				index += turns;
 			}
 			*facing = directions[index as usize];
-			println!("ora rivolto a {facing}");
 		},
 		_ => todo!(),
 	}
